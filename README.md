@@ -21,4 +21,34 @@ on a Windows machine, but I have not documented the steps. If you've developed d
 
 All of API already added postman collection. Please check and download.
 
+
+###### 1st open in your system terminal then follow the command line.
+
+```bash
+git clone https://github.com/mbrsagor/restAuth.git
+cd restAuth
+```
+
+###### Then copy code from the ``env_example`` and create new file `.env` then pasts
+
+-------------------------------------------
+```bash
+|--> env_example
+|--> .env
+```
+
+
+Run the application in your local development server:
+
+```bash
+virtualenv venv --python=python3.10
+source venv/bin/activate
+pip install -r requirements.txt
+./manage.py makemigrations accounts
+./manage.py migrate user accounts
+./manage.py migrate
+./mangae.py runserver
+```
+
+
 ## Happy coding :wink:
