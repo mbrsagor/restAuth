@@ -1,0 +1,13 @@
+env
+venv
+.idea/
+__pycache__/
+db.sqlite3
+migrations/
+media
+staticfiles
+static
+data
+.DS_Store
+.env
+.env.docker
