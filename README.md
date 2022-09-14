@@ -18,6 +18,7 @@ on a Windows machine, but I have not documented the steps. If you've developed d
 - User Sign In
 - Rest password with mail
 - Change Password
+- Profile & Update Profile
 
 All of API already added postman collection. Please check and download.
 
@@ -45,7 +46,6 @@ virtualenv venv --python=python3.10
 source venv/bin/activate
 pip install -r requirements.txt
 ./manage.py makemigrations accounts
-./manage.py migrate user accounts
 ./manage.py migrate
 ./mangae.py runserver
 ```
