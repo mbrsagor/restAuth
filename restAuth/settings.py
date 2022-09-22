@@ -190,3 +190,5 @@ DJOSER = {
         'user_delete': 'djoser.serializer.UserDeleteSerializer',
     }
 }
+
+# AUTHENTICATION_BACKENDS = ["accounts.backend.CustomUserModelBackend"]
