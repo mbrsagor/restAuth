@@ -2,6 +2,7 @@ from rest_framework import generics, status
 from rest_framework.response import Response
 from django.contrib.auth import get_user_model
 
+from .permissions import AuthorOrReadOnly
 from .serializers import PasswordChangeSerializer
 from .utils import failed_response, success_response
 
