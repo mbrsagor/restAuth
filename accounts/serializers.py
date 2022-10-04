@@ -17,3 +17,11 @@ class PasswordChangeSerializer(serializers.Serializer):
     """
     old_password = serializers.CharField(required=True)
     new_password = serializers.CharField(required=True)
+
+
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = USER
+        fields = (
+            '__all__'
+        )

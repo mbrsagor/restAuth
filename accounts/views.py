@@ -1,9 +1,9 @@
-from rest_framework import generics, status
+from rest_framework import generics, status, views
 from rest_framework.response import Response
 from django.contrib.auth import get_user_model
 
 from .permissions import AuthorOrReadOnly
-from .serializers import PasswordChangeSerializer
+from .serializers import PasswordChangeSerializer, ProfileSerializer
 from .utils import failed_response, success_response
 
 User = get_user_model()
@@ -37,3 +37,22 @@ class PasswordChangeAPI(generics.UpdateAPIView):
             self.object.save()
             return Response(success_response(SUCCESS_MESSAGE), status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class Profile(views.APIView):
+    permission_classes = (AuthorOrReadOnly,)
+
+    """
+       Name: User Profile API for Web mobile both
+       URL: /api/v1/user/profile/
+       """
+
+    def get(self, request, **kwargs):
+        try:
+            user = User.objects.get(id=self.request.user.id)
+            if user is not None:
+                serializer = ProfileSerializer(user)
+                return Response(success_response(serializer.data), status=status.HTTP_200_OK)
+            return Response(failed_response("The user ID not found."), status=status.HTTP_200_OK)
+        except Exception as ex:
+            return Response(failed_response(str(ex)), status=status.HTTP_200_OK)
