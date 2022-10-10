@@ -56,3 +56,15 @@ class Profile(views.APIView):
             return Response(failed_response("The user ID not found."), status=status.HTTP_200_OK)
         except Exception as ex:
             return Response(failed_response(str(ex)), status=status.HTTP_200_OK)
+
+
+class ProfileUpdateAPIView(generics.UpdateAPIView):
+    def put(self, request, *args, **kwargs):
+        profile = self.get_object()
+        if profile is not None:
+            serializer = ProfileSerializer(profile, data=request.data)
+            if serializer.is_valid(raise_exception=True):
+                serializer.save(user=self.request.user)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(failed_response(serializer.errors), status=status.HTTP_400_BAD_REQUEST)
+        return Response(failed_response('Something went to wrong'), status=status.HTTP_200_OK)
