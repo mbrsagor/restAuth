@@ -1,4 +1,4 @@
-# restAuth
+# RestAuth (Djoser)
 
 > Django authentication system backend API.
 
@@ -38,7 +38,6 @@ cd restAuth
 |--> .env
 ```
 
-
 Run the application in your local development server:
 
 ```bash
@@ -49,6 +48,5 @@ pip install -r requirements.txt
 ./manage.py migrate
 ./mangae.py runserver
 ```
-
 
 ## Happy coding :wink:

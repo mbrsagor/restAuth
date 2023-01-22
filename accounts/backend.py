@@ -6,6 +6,12 @@ User = get_user_model()
 
 
 class EmailPhoneUsernameAuthenticationBackend(object):
+    """
+    Basically, the backend using user can login as username or email fields.
+    :param
+    username or email
+    password
+    """
     def authenticate(self, request, username=None, password=None):
         try:
             user = User.objects.get(
