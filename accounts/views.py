@@ -5,7 +5,8 @@ from django.contrib.auth import get_user_model
 from .permissions import AuthorOrReadOnly
 from .utils import failed_response, success_response
 from .serializers import PasswordChangeSerializer, ProfileSerializer
-from .messages import ID_NOT_FOUND, SUCCESS_MESSAGE, WRONG_MESSAGE
+from .response import prepare_success_response, prepare_error_response
+from .messages import ID_NOT_FOUND, SUCCESS_MESSAGE, WRONG_MESSAGE, REMOVE_USER, CANCEL_USER
 
 User = get_user_model()
 
@@ -62,6 +63,7 @@ class ProfileUpdateAPIView(generics.UpdateAPIView):
     :param
     id
     """
+
     def put(self, request, *args, **kwargs):
         profile = self.get_object()
         if profile is not None:
@@ -71,3 +73,17 @@ class ProfileUpdateAPIView(generics.UpdateAPIView):
                 return Response(serializer.data, status=status.HTTP_200_OK)
             return Response(failed_response(serializer.errors), status=status.HTTP_400_BAD_REQUEST)
         return Response(failed_response(WRONG_MESSAGE), status=status.HTTP_200_OK)
+
+
+class DeleteUserAPIView(views.APIView):
+    def delete(self, reqeust, pk):
+        action = reqeust.data.get('action')  # Action get from reqeust
+        member = User.objects.get(id=pk)
+        if member is not None:
+            if action == 1:
+                member.delete()
+                return Response(prepare_success_response(REMOVE_USER), status=status.HTTP_200_OK)
+            if action == 2:
+                member.delete()
+                return Response(prepare_success_response(CANCEL_USER), status=status.HTTP_200_OK)
+        return Response(prepare_error_response(ID_NOT_FOUND), status=status.HTTP_200_OK)
