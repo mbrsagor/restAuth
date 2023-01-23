@@ -77,13 +77,16 @@ class ProfileUpdateAPIView(generics.UpdateAPIView):
 
 class DeleteUserAPIView(views.APIView):
     def delete(self, reqeust, pk):
-        action = reqeust.data.get('action')  # Action get from reqeust
-        member = User.objects.get(id=pk)
-        if member is not None:
-            if action == 1:
-                member.delete()
-                return Response(prepare_success_response(REMOVE_USER), status=status.HTTP_200_OK)
-            if action == 2:
-                member.delete()
-                return Response(prepare_success_response(CANCEL_USER), status=status.HTTP_200_OK)
-        return Response(prepare_error_response(ID_NOT_FOUND), status=status.HTTP_200_OK)
+        try:
+            action = reqeust.data.get('action')  # Action get from reqeust
+            member = User.objects.get(id=pk)
+            if member is not None:
+                if action == 1:
+                    member.delete()
+                    return Response(prepare_success_response(REMOVE_USER), status=status.HTTP_200_OK)
+                if action == 2:
+                    member.delete()
+                    return Response(prepare_success_response(CANCEL_USER), status=status.HTTP_200_OK)
+            return Response(prepare_error_response(ID_NOT_FOUND), status=status.HTTP_400_BAD_REQUEST)
+        except Exception as ex:
+            return Response(prepare_error_response(str(ex)), status=status.HTTP_404_NOT_FOUND)
